@@ -1,18 +1,19 @@
+import os
 import cv2 as cv
 import numpy as np
 import api.img_api.rgb_pixels_counter as rgb
 
-dst_path = "d:\\py\\log_img\\dst.jpg"
-thresh_path = "d:\\py\\log_img\\thresh.jpg"
+
+dst_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "log_img", "dst.jpg")
+thresh_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "log_img", "thresh.jpg")
+
 dst_img = cv.imread(dst_path, 0)
 contours_area_result = []
-final_data_sample = []
 
 
 def contours_area():
     img = cv.imread(thresh_path, cv.COLOR_BGR2HSV)
     ret, thresh = cv.threshold(img, 10, 255, 0)
-    cv.imwrite("d:\\py\\log_img\\new_thresh.jpg", thresh)
     contours, hierarchy = cv.findContours(thresh, 1, 2)
     for i, cnt in enumerate(contours):
         M = cv.moments(cnt)
@@ -57,6 +58,7 @@ def rgb_pixels_to_total_value():
 
 
 def unification():
+    final_data_sample = []
     contours_area()
     try:
         while True:
